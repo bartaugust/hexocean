@@ -1,7 +1,5 @@
 from django.db import models
-# from django.contrib.auth.models import Group
-# from django.contrib.auth.models import AbstractUser
-
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin, AbstractUser
 from django.contrib.postgres.fields import ArrayField
 
 
@@ -12,19 +10,23 @@ class UserTier(models.Model):
     can_generate_link = models.BooleanField(default=False)
 
 
-# class User(AbstractUser):
-#     tier = models.ForeignKey(UserTier, on_delete=models.CASCADE, null=True, blank=True)
-    # BASIC = 1
-    # PREMIUM = 2
-    # ENTERPRISE = 3
-    #
-    # TIER_CHOICES = (
-    #     (BASIC, 'Basic'),
-    #     (PREMIUM, 'Premium'),
-    #     (ENTERPRISE, 'Enterprise'),
-    # )
-    # tier = models.PositiveSmallIntegerField(choices=TIER_CHOICES, blank=True, null=True)
-
-# basic_user_group = Group.objects.create(name='Basic')
-# premium_user_group = Group.objects.create(name='Premium')
-# enterprise_user_group = Group.objects.create(name='Enterprise')
+#
+#
+# class User(AbstractBaseUser, PermissionsMixin):
+#     # tier = models.ForeignKey(UserTier, on_delete=models.CASCADE, null=True, blank=True)
+#
+#     username = models.CharField(max_length=25, unique=True)
+#     first_name = models.CharField(max_length=25, blank=True)
+#     last_name = models.CharField(max_length=25, blank=True)
+#     email = models.EmailField(unique=True)
+#
+#     is_active = models.BooleanField(default=False)
+#     is_staff = models.BooleanField(default=False)
+#     is_superuser = models.BooleanField(default=False)
+#
+#     objects = UserManager()
+#
+#     USERNAME_FIELD = 'username'
+#     # REQUIRED_FIELDS = ['user_name']
+class User(AbstractUser, PermissionsMixin):
+    tier = models.ForeignKey(UserTier, on_delete=models.CASCADE, null=True, blank=True)
