@@ -10,23 +10,8 @@ class UserTier(models.Model):
     can_generate_link = models.BooleanField(default=False)
 
 
-#
-#
-# class User(AbstractBaseUser, PermissionsMixin):
-#     # tier = models.ForeignKey(UserTier, on_delete=models.CASCADE, null=True, blank=True)
-#
-#     username = models.CharField(max_length=25, unique=True)
-#     first_name = models.CharField(max_length=25, blank=True)
-#     last_name = models.CharField(max_length=25, blank=True)
-#     email = models.EmailField(unique=True)
-#
-#     is_active = models.BooleanField(default=False)
-#     is_staff = models.BooleanField(default=False)
-#     is_superuser = models.BooleanField(default=False)
-#
-#     objects = UserManager()
-#
-#     USERNAME_FIELD = 'username'
-#     # REQUIRED_FIELDS = ['user_name']
 class User(AbstractUser, PermissionsMixin):
     tier = models.ForeignKey(UserTier, on_delete=models.CASCADE, null=True, blank=True)
+
+class UploadedImage(models.Model):
+    image = models.ImageField(upload_to='images/')
