@@ -13,5 +13,10 @@ class UserTier(models.Model):
 class User(AbstractUser, PermissionsMixin):
     tier = models.ForeignKey(UserTier, on_delete=models.CASCADE, null=True, blank=True)
 
+
 class UploadedImage(models.Model):
     image = models.ImageField(upload_to='images/')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, default=None, related_name='images')
+
+    def __str__(self):
+        return f"Image"

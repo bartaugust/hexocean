@@ -1,23 +1,19 @@
-from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
 
 from .models import UploadedImage
 from .serializers import UploadedImageSerializer
 
 
-class ImageViewSet(ViewSet):
-    queryset = UploadedImage.objects.all()
+class ImageViewSet(ModelViewSet):
     serializer_class = UploadedImageSerializer
 
-# class ItemViewSet(ViewSet):
-#     queryset = Item.objects.all()
-#
-#     def list(self, request):
-#         serializer = ItemSerializer(self.queryset, many=True)
-#         return Response(serializer.data)
-#
-#     def retrieve(self, request, pk=None):
-#         item = get_object_or_404(self.queryset, pk=pk)
-#         serializer = ItemSerializer(item)
-#         return Response(serializer.data)
+    # queryset = UploadedImage.objects.all()
+    permission_classes = [IsAuthenticated]
+    queryset = UploadedImage.objects.filter()
+
+    def get_queryset(self):
+        return UploadedImage.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
