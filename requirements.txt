@@ -4,3 +4,4 @@ djangorestframework
 psycopg2-binary
 
 Pillow
+sorl-thumbnail
