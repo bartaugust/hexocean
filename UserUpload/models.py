@@ -9,6 +9,9 @@ class UserTier(models.Model):
     is_link_present = models.BooleanField(default=False)
     can_generate_link = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
+
 
 class User(AbstractUser, PermissionsMixin):
     tier = models.ForeignKey(UserTier, on_delete=models.CASCADE, null=True, blank=True)
@@ -19,4 +22,4 @@ class UploadedImage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, default=None, related_name='images')
 
     def __str__(self):
-        return f"Image"
+        return f"{self.image}"
