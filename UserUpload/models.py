@@ -23,7 +23,6 @@ class UploadedImage(models.Model):
     image = models.ImageField(upload_to='images/')
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, default=None, related_name='images')
 
-
     def __str__(self):
         return f"{self.image}"
 
