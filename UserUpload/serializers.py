@@ -1,13 +1,29 @@
 from rest_framework import serializers
+
 from .models import UploadedImage, ExpiringLink
 from sorl.thumbnail import get_thumbnail
+
+from django.core.exceptions import ValidationError
 
 
 class ExpiringLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExpiringLink
-        fields = ('id', 'expiry_time', 'link')
+        fields = ('id', 'time_to_expire', 'link')
 
+    def validate_time_to_expire(self, value):
+        min_time = 300
+        max_time = 30000
+        if not min_time <= value <= max_time:
+            raise ValidationError(f"Expiry time must be between {min_time} and {max_time}")
+        return value
+
+    # def create(self, validated_data):
+    #     min_time = 300
+    #     max_time = 30000
+    #     if not min_time <= validated_data['time_to_expire'] <= max_time:
+    #         raise ValidationError(f"Expiry time must be between {min_time} and {max_time}")
+    #     return ExpiringLink.objects.create(**validated_data)
 
 class UploadedImageSerializer(serializers.ModelSerializer):
     image_detail = serializers.HyperlinkedIdentityField(view_name='images-detail',

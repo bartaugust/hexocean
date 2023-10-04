@@ -10,8 +10,6 @@ from .serializers import UploadedImageSerializer, ExpiringLinkSerializer
 
 from django.shortcuts import get_object_or_404
 
-from time import time
-
 
 class ImageViewSet(ModelViewSet):
     serializer_class = UploadedImageSerializer
@@ -38,8 +36,14 @@ class ImageViewSet(ModelViewSet):
             links = ExpiringLink.objects.filter(image=image)
             serializer = self.get_serializer(links, many=True)
         if request.method == 'POST':
-            expiry_time = int(time()) + int(request.POST['expiry_time'])
-            link = image.generate_expiring_link(expiry_time=expiry_time)
-            serializer = self.get_serializer(link)
+            time_to_expire = request.POST['time_to_expire']
+            serializer = ExpiringLinkSerializer(data=request.data)
+            if serializer.is_valid():
+                validated_data = serializer.validated_data
+                ExpiringLink.objects.create(**validated_data, image=image)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            # link = image.generate_expiring_link(time_to_expire=time_to_expire)
+            # serializer = self.get_serializer(link)
 
         return Response(serializer.data)

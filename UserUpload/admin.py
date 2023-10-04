@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, UserTier, UploadedImage
+from .models import User, UserTier, UploadedImage, ExpiringLink
 
 
 class CustomUserAdmin(UserAdmin):
@@ -21,3 +21,4 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(UserTier)
 admin.site.register(UploadedImage)
+admin.site.register(ExpiringLink)
