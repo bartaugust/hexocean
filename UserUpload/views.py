@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from django.core import signing
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpResponse
 
 import uuid
