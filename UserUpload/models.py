@@ -23,11 +23,6 @@ class UploadedImage(models.Model):
     image = models.ImageField(upload_to='images/')
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, default=None, related_name='images')
 
-    def generate_expiring_link(self, time_to_expire):
-        link = ExpiringLink(image=self, time_to_expire=time_to_expire)
-        link.save()
-        return link
-
     def __str__(self):
         return f"{self.image}"
 
