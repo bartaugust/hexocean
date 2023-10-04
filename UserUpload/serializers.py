@@ -18,12 +18,6 @@ class ExpiringLinkSerializer(serializers.ModelSerializer):
             raise ValidationError(f"Expiry time must be between {min_time} and {max_time}")
         return value
 
-    # def create(self, validated_data):
-    #     min_time = 300
-    #     max_time = 30000
-    #     if not min_time <= validated_data['time_to_expire'] <= max_time:
-    #         raise ValidationError(f"Expiry time must be between {min_time} and {max_time}")
-    #     return ExpiringLink.objects.create(**validated_data)
 
 class UploadedImageSerializer(serializers.ModelSerializer):
     image_detail = serializers.HyperlinkedIdentityField(view_name='images-detail',

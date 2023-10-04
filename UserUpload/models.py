@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, AbstractUser
 from django.contrib.postgres.fields import ArrayField
 import uuid
-import datetime
+from django.utils import timezone
 
 
 class UserTier(models.Model):
@@ -23,6 +23,7 @@ class UploadedImage(models.Model):
     image = models.ImageField(upload_to='images/')
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, default=None, related_name='images')
 
+
     def __str__(self):
         return f"{self.image}"
 
@@ -35,7 +36,7 @@ class ExpiringLink(models.Model):
     time_to_expire = models.IntegerField()
 
     def expiry_time(self):
-        return self.creation_time + datetime.timedelta(seconds=self.time_to_expire)
+        return self.creation_time + timezone.timedelta(seconds=self.time_to_expire)
 
     def is_expired(self):
-        return datetime.datetime.now() > self.expiry_time()
+        return timezone.now() > self.expiry_time()
