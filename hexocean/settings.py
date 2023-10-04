@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'hexocean.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres3',
+        'NAME': 'postgres',
         'USER': 'test',
         'PASSWORD': 'test',
         'HOST': 'localhost',
@@ -132,7 +132,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ),
 }
 
